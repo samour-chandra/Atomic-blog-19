@@ -45,7 +45,15 @@ function App() {
   );
 
   return (
-    <PostContext.Provider>
+    // add the context value
+    <PostContext.Provider
+      value={{
+        posts: searchedPosts,
+        onClearPosts: handleClearPosts,
+        searchQuery,
+        setSearchQuery,
+      }}
+    >
       <section>
         <button
           onClick={() => setIsFakeDark((isFakeDark) => !isFakeDark)}
@@ -54,12 +62,7 @@ function App() {
           {isFakeDark ? "☀️" : "🌙"}
         </button>
 
-        <Header
-          posts={searchedPosts}
-          onClearPosts={handleClearPosts}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
+        <Header/>
         <Main posts={searchedPosts} onAddPost={handleAddPost} />
         <Archive onAddPost={handleAddPost} />
         <Footer />
