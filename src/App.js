@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { faker } from "@faker-js/faker";
 
 // Create the post context
@@ -62,8 +62,8 @@ function App() {
           {isFakeDark ? "☀️" : "🌙"}
         </button>
 
-        <Header/>
-        <Main posts={searchedPosts} onAddPost={handleAddPost} />
+        <Header />
+        <Main />
         <Archive onAddPost={handleAddPost} />
         <Footer />
       </section>
@@ -71,25 +71,24 @@ function App() {
   );
 }
 
-function Header({ posts, onClearPosts, searchQuery, setSearchQuery }) {
+function Header() {
+  const { onClearPosts } = useContext(PostContext);
   return (
     <header>
       <h1>
         <span>⚛️</span>The Atomic Blog
       </h1>
       <div>
-        <Results posts={posts} />
-        <SearchPosts
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-        />
+        {/* <Results />
+        <SearchPosts /> */}
         <button onClick={onClearPosts}>Clear posts</button>
       </div>
     </header>
   );
 }
 
-function SearchPosts({ searchQuery, setSearchQuery }) {
+function SearchPosts() {
+  const { searchQuery, setSearchQuery } = useContext(PostContext);
   return (
     <input
       value={searchQuery}
@@ -99,20 +98,23 @@ function SearchPosts({ searchQuery, setSearchQuery }) {
   );
 }
 
-function Results({ posts }) {
+function Results() {
+  const { posts } = useContext(PostContext);
   return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
-function Main({ posts, onAddPost }) {
+function Main() {
+  const { posts, onAddPost } = useContext(PostContext);
   return (
     <main>
-      <FormAddPost onAddPost={onAddPost} />
-      <Posts posts={posts} />
+      <FormAddPost/>
+      <Posts/>
     </main>
   );
 }
 
-function Posts({ posts }) {
+function Posts() {
+  const { posts } = useContext(PostContext);
   return (
     <section>
       <List posts={posts} />
@@ -120,7 +122,8 @@ function Posts({ posts }) {
   );
 }
 
-function FormAddPost({ onAddPost }) {
+function FormAddPost() {
+   const { onAddPost } = useContext(PostContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
